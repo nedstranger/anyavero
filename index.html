@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anya Vero - Searching For Home</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+        :root {
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --color-light: #F4F4F4;
+            --color-dark: #1A1A1A;
+            --color-accent: #B0A175;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            background-color: var(--color-dark);
+            color: var(--color-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        nav a {
+            color: var(--color-light);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--color-accent);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* NEW: Hero Image Styling */
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the full screen */
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .hero-content h1 {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            font-weight: 300;
+            line-height: 1;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        .hero-content p {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 8rem 0;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        /* --- Collections Section --- */
+        #collections .scroll-images {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column; 
+            margin-top: 5rem;
+        }
+
+        .scroll-image-item {
+            position: relative;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 4rem;
+        }
+
+        .scroll-image-item-content {
+            position: relative;
+            top: auto;
+            transform: none;
+            width: 80%;
+            max-width: 600px;
+            /* FIX: Removed fixed height to prevent cropping */
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .scroll-image-item-content img {
+            width: 100%;
+            /* FIX: Set height to auto to maintain aspect ratio */
+            height: auto;
+            /* FIX: Changed object-fit to contain to make the entire image visible */
+            object-fit: contain;
+        }
+        
+        /* All glass effect CSS removed */
+        .glass-overlay,
+        .glass-overlay::before,
+        .glass-overlay::after {
+            display: none;
+        }
+
+        .scroll-image-item.full {
+            height: auto;
+        }
+
+        .scroll-image-caption {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            background: rgba(26, 26, 26, 0.7);
+            padding: 1rem 1.5rem;
+            border-left: 2px solid var(--color-accent);
+            opacity: 1;
+            transform: translateY(0);
+            transition: none;
+            text-align: left;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .scroll-image-caption h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+        }
+
+        .scroll-image-caption p {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- About Section --- */
+        #about .bio-flex {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        #about .bio-flex-img {
+            flex: 1;
+        }
+
+        #about .bio-flex-img img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        #about .bio-flex-text {
+            flex: 1;
+        }
+
+        #about .bio-flex-text h3 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        #about .bio-flex-text p {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* --- General Section Styles --- */
+        .qna-list {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .qna-item {
+            border-bottom: 1px solid rgba(244, 244, 244, 0.2);
+            padding-bottom: 2rem;
+        }
+
+        .qna-item:last-child {
+            border-bottom: none;
+        }
+
+        .qna-item h4 {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .qna-item p {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+        }
+
+        /* --- Invitation Section --- */
+        #invitation {
+            background-color: #000;
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        #invitation h2 {
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        #invitation p {
+            font-family: var(--font-sans);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        .button {
+            position: relative;
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--color-light);
+            color: var(--color-light);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            overflow: hidden;
+            transition: color 0.3s;
+        }
+
+        /* Glisten/Shine effect */
+        .button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(244, 244, 244, 0.1);
+            transform: skewX(-30deg);
+            transition: left 0.5s ease;
+        }
+
+        .button:hover::before {
+            left: 100%;
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .button:hover {
+            background-color: var(--color-light);
+            color: var(--color-dark);
+        }
+
+        .contact-form {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        /* Styles for the label element */
+        .contact-form label {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-light);
+            margin-bottom: 0.5rem;
+            text-align: left;
+            opacity: 0.7;
+        }
+
+        .contact-form form {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .contact-form input {
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--color-light);
+            color: var(--color-light);
+            padding: 0.5rem;
+            margin: 0 0.5rem 1rem 0;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            width: 250px;
+        }
+
+        /* Removed placeholder styling as it's no longer needed with labels */
+        .contact-form input::placeholder {
+            color: rgba(244, 244, 244, 0.5);
+        }
+
+        .contact-form button {
+            background: var(--color-light);
+            color: var(--color-dark);
+            border: none;
+            padding: 0.75rem 2rem;
+            font-family: var(--font-sans);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .contact-form button:hover {
+            background-color: var(--color-accent);
+            color: var(--color-light);
+        }
+
+        /* --- Bunker Tour Section --- */
+        #bunker-tour {
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        #bunker-tour h2 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        #bunker-tour p {
+            font-family: var(--font-sans);
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        
+        /* --- Footer --- */
+        footer {
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(244, 244, 244, 0.1);
+        }
+
+        footer p {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        /* --- Horizontal rule --- */
+        hr {
+            border: none;
+            height: 1px;
+            background: rgba(244, 244, 244, 0.1);
+            margin: 4rem auto;
+            width: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .bio-flex, .event-details {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .bio-flex.reverse {
+                flex-direction: column;
+            }
+            header {
+                padding: 1rem;
+            }
+            nav {
+                display: none;
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Anya Vero</div>
+        <nav>
+            <a href="#collections">Collections</a>
+            <a href="#about">About</a>
+            <a href="#exhibition">The Exhibition</a>
+            <a href="#qa">Q&A</a>
+            <a href="#invitation" class="button">Invitation</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <img src="REPLACE_WITH_YOUR_FLICKR_HERO_IMAGE_URL" alt="Nuclear Bunker Entrance" class="hero-image">
+        <div class="hero-content">
+            <h1>Searching For Home</h1>
+            <p>A Collection by Anya Vero</p>
+        </div>
+    </section>
+
+    <section id="collections" class="container">
+        <h2 class="section-title">The Collections</h2>
+        <div class="scroll-images">
+            
+            <div class="scroll-image-item">
+                <div class="scroll-image-item-content">
+                    <img src="REPLACE_WITH_FLICKR_URL_FOR_vF6aDgS.jpeg" alt="A Copper Road Heading To The Spectacular">
+                </div>
+                <div class="scroll-image-caption">
+                    <h3>A Copper Road Heading To The Spectacular</h3>
+                    <p>180 x 130 cm approx, Oil on Faux Silk, 2025</p>
+                    <a href="copper-road.html">View Collection &rarr;</a>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="scroll-image-item">
+                <div class="scroll-image-item-content">
+                    <img src="REPLACE_WITH_FLICKR_URL_FOR_YIfIq7H.jpeg" alt="Pathways Cradling Calm And Adventure">
+                </div>
+                <div class="scroll-image-caption">
+                    <h3>Pathways Cradling Calm And Adventure</h3>
+                    <p>180 x 130 cm approx, Oil On Faux Silk, 2025</p>
+                    <a href="pathways.html">View Collection &rarr;</a>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="scroll-image-item">
+                <div class="scroll-image-item-content">
+                    <img src="REPLACE_WITH_FLICKR_URL_FOR_pVQPRGR.jpeg" alt="A Copper Road Heading To The Spectacular (2)">
+                </div>
+                <div class="scroll-image-caption">
+                    <h3>The Copper Road</h3>
+                    <p>180 x 130 cm approx, Oil on Faux Silk, 2025</p>
+                    <a href="another-collection.html">View Collection &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="about" class="container">
+        <h2 class="section-title">The Artist</h2>
+        <div class="bio-flex">
+            <div class="bio-flex-img">
+                <img src="REPLACE_WITH_FLICKR_URL_FOR_9jGLpKf.jpeg" alt="Anya Vero, the artist">
+            </div>
+            <div class="bio-flex-text">
+                <h3>Anya Vero</h3>
+                <p>Anya Vero’s background and the search for where and what is home is at the centre of these paintings: half Ukrainian, half Russian, Latvian-born but having spent more than half of her life in other countries, the questions around her identity have never been fully answered and perhaps they never will. Searching for home becomes as much a spiritual journey as it is a geographical location.</p>
+                <p>This series dives into the visual representation of what wandering and looking for home looks like. Scenes from life and places. Symbolic elements like stars hint at places far away in the universe, other galaxies; throughout the millennia stars have been our navigation tools - spiritually and physically. Radars are symbols of looking for something and connecting; roads - leading somewhere. The shaped canvas and oils on faux silk is the signature style that brings the colours, composition and textures alive.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="exhibition" class="container">
+        <h2 class="section-title">The Exhibition</h2>
+        <div class="bio-flex reverse">
+            <div class="bio-flex-img">
+                <img src="REPLACE_WITH_FLICKR_URL_FOR_Z82ubnZ.jpeg" alt="Painting in bunker">
+            </div>
+            <div class="bio-flex-text">
+                <h3>A Unique Space for a Timeless Journey</h3>
+                <p>For the first time in its history, the Neatished ex-air force military bunker and radar base will be the setting for an art exhibition. The raw, imposing structure of this Cold War relic provides a powerful contrast to the delicate themes of belonging and identity explored in Vero's work.</p>
+                <p>This exhibition is an exclusive and immersive experience, inviting you to navigate countless corridors and discover art hidden within a space once dedicated to defense and secrecy. The bunker's heritage adds a profound layer of meaning, turning the act of viewing art into a journey of historical and personal reflection.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="qa" class="container">
+        <h2 class="section-title">In Conversation with the Artist</h2>
+        <div class="qna-list">
+            <div class="qna-item">
+                <h4>Q: What inspired you to use the bunker as the venue for this collection?</h4>
+                <p>A: The bunker's history and its role as a "shelter" from conflict resonate deeply with the theme of searching for a safe, spiritual, and physical home. This unique space and the radar connected to it is a perfect juxtaposition for this vivid imagery - the warmth we all seek amidst the desert of concrete.</p>
+            </div>
+            <div class="qna-item">
+                <h4>Q: Was there anything in particular that sparked your ideas for the collection?</h4>
+                <p>A: I wanted to create a visual representation of what wandering and looking for a home looks like... with scenes of the places and feelings that arise when I try to understand where I belong. The symbolism around searching is a big part of it - like the stars, faraway places that give us context on where our home is, or radars, tools used to search and guide us; pathways that lead us somewhere.</p>
+            </div>
+            <div class="qna-item">
+                <h4>Q: Have you ever felt like you knew where home was?</h4>
+                <p>A: Not in a clear or definite sense, more in the practical sense of living in a place for a time, and in terms of the people I care about who live there… But I’ve never found a single place that counts as “home” and grounds me, more a shifting collection of places. In the modern world, lots of people have multiple homes, and while it’s important for humans to have a sense of belonging and know where “home” is, I think this comes from the people rather than the place itself. Then there is a question of home in a metaphysical sense and this is a whole other dimension of looking at belonging and our purpose and destiny in life.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="invitation">
+        <div class="container">
+            <h2>The Private View</h2>
+            <p>You are invited to the exclusive private view for "Searching For Home," an unparalleled event that marks the first art exhibition ever held within the historic Neatished military bunker.</p>
+            <p><strong>Private View:</strong> 4th October 2025, 3 PM <br>
+            <strong>Exhibition Dates:</strong> 4th - 5th October 2025</p>
+            
+            <p>Please note that this is a **booking-required event**.</p>
+            
+            <div class="contact-form">
+                <p><strong>To receive your exclusive invitation with the full address and directions, please register your details below.</strong></p>
+                <form action="https://formspree.io/f/myzdydar" method="post">
+                    <div>
+                        <label for="name">Your name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div>
+                        <label for="email">Your email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit">Request Invitation</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="bunker-tour" class="container">
+        <h2>A Once-in-a-Lifetime Event</h2>
+        <p>This unique event is more than just an art exhibition. For the first time in a while, it will be possible to see this huge bunker up close, explore its history, and navigate its countless corridors with an expert guide. Your visit to the "Searching For Home" collection includes this exclusive access to a part of history that has remained unseen for decades.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Anya Vero. All rights reserved.</p>
+        <p>Website hosted on anyavero.com</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll('section, hr');
+
+            const sectionObserverOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const sectionObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, sectionObserverOptions);
+
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 1s ease, transform 1s ease';
+                sectionObserver.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
